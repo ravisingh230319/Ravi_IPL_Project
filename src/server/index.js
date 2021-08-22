@@ -9,11 +9,11 @@ const {
 const deliveries = [];
 const matches = [];
 
-fs.createReadStream('./../data/deliveries.csv')
+fs.createReadStream('src/data/deliveries.csv')
     .pipe(csv())
     .on('data', (data) => deliveries.push(data))
     .on('end', () => {
-        fs.createReadStream('./../data/matches.csv')
+        fs.createReadStream('src/data/matches.csv')
             .pipe(csv())
             .on('data', (data) => matches.push(data))
             .on('end', () => {
@@ -34,9 +34,9 @@ fs.createReadStream('./../data/deliveries.csv')
                     fs.writeFile(file, jsonData, error);
                 }
 
-                sendOutputData('./../public/output/matchesPerYear.json', matchesPerYear);
-                sendOutputData('./../public/output/matchesWonPerTeamPerYear.json', matchesWonPerTeamPerYear);
-                sendOutputData('./../public/output/extraRunsPerTeam2016.json', extraRunsPerTeam2016);
-                sendOutputData('./../public/output/top10EconomicalBowlers2015.json', topTenEconomicalBowlers2015);
+                sendOutputData('src/public/output/matchesPerYear.json', matchesPerYear);
+                sendOutputData('src/public/output/matchesWonPerTeamPerYear.json', matchesWonPerTeamPerYear);
+                sendOutputData('src/public/output/extraRunsPerTeam2016.json', extraRunsPerTeam2016);
+                sendOutputData('src/public/output/top10EconomicalBowlers2015.json', topTenEconomicalBowlers2015);
             });
     });
