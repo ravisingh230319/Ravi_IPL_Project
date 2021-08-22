@@ -9,6 +9,7 @@ This project is used to transform raw data of IPL to calculate the following sta
 ## Running On Your Local Machine
 Before running this project make sure Node.js is installed in your system.
 Then run the following commands in your terminal:
+
     git clone https://github.com/ravisingh230319/Ravi_IPL_Project
     cd Ravi_IPL_Project
     npm install
