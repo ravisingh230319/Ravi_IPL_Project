@@ -44,6 +44,10 @@ function extraRunsConcededPerTeam2016(deliveries, matches) {
         if (matches[outerIndex].season == 2016) {
             yearId = matches[outerIndex].id;
         }
+        else {
+            yearId = 0;
+        }
+
         for (let innerIndex = 0; innerIndex < deliveries.length; innerIndex += 1) {
             if (deliveries[innerIndex].match_id == yearId) {
                 if (!results.hasOwnProperty(deliveries[innerIndex].bowling_team)) {
@@ -69,6 +73,10 @@ function top10EconomicalBowlers2015(deliveries, matches) {
         if (matches[outerIndex].season == 2015) {
             yearId = matches[outerIndex].id;
         }
+        else {
+            yearId = 0;
+        }
+        
         for (let innerIndex = 0; innerIndex < deliveries.length; innerIndex += 1) {
             if (deliveries[innerIndex].match_id == yearId) {
                 if (!economyOfBowler.hasOwnProperty(deliveries[innerIndex].bowler)) {
