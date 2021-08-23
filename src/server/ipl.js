@@ -66,8 +66,9 @@ function extraRunsConcededPerTeam2016(deliveries, matches) {
 function top10EconomicalBowlers2015(deliveries, matches) {
     let yearId = 0;
     let counter = 0;
-    let results = [];
+    let results = {};
     let economyOfBowler = {};
+    let ball={};
      
     for (let outerIndex = 0; outerIndex < matches.length; outerIndex += 1) {
         if (matches[outerIndex].season == 2015) {
@@ -78,26 +79,46 @@ function top10EconomicalBowlers2015(deliveries, matches) {
         }
         
         for (let innerIndex = 0; innerIndex < deliveries.length; innerIndex += 1) {
+            let wideBall = deliveries[innerIndex].wide_runs;
+            let noBall = deliveries[innerIndex].noball_runs;
+
             if (deliveries[innerIndex].match_id == yearId) {
                 if (!economyOfBowler.hasOwnProperty(deliveries[innerIndex].bowler)) {
                     economyOfBowler[deliveries[innerIndex].bowler] = Number(deliveries[innerIndex].total_runs);
+                    if(wideBall == 0 && noBall == 0){
+                        ball[deliveries[innerIndex].bowler] = 1;
+                    }
                 } 
                 else {
                     economyOfBowler[deliveries[innerIndex].bowler] += Number(deliveries[innerIndex].total_runs);
+                    if(wideBall == 0 && noBall == 0){
+                        ball[deliveries[innerIndex].bowler] += 1;
+                    }
                 }
             }
         }
     }
 
-    let sortedEconomy = Object.fromEntries(Object.entries(economyOfBowler).sort((x, y) => x[1]-y[1]));
+    let sortedEconomy = ball;
+
+    for(let key in sortedEconomy, economyOfBowler)
+    {
+        sortedEconomy[key] = (economyOfBowler[key] * 6)/ sortedEconomy[key];
+    }
+    
+    // In sorting the below line puts all the NaN values in order after sorting
+    sortedEconomy = Object.fromEntries(Object.entries(sortedEconomy).sort((x, y)=>x[1]-y[1] || isNaN(x[1])-isNaN(y[1])));
 
     for (let bowlerName in sortedEconomy) {
         if (counter > 10) {
             break;
         } 
         else {
-            results.push(bowlerName);
-            counter += 1;
+            if(!results.hasOwnProperty(bowlerName))
+            {
+                results[bowlerName] = Number(sortedEconomy[bowlerName].toFixed(2));
+                counter += 1;
+            }
         }
     }
     return results;
