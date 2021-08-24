@@ -85,15 +85,25 @@ function top10EconomicalBowlers2015(deliveries, matches) {
             if (deliveries[innerIndex].match_id == yearId) {
                 if (!economyOfBowler.hasOwnProperty(deliveries[innerIndex].bowler)) {
                     economyOfBowler[deliveries[innerIndex].bowler] = Number(deliveries[innerIndex].total_runs);
-                    if(wideBall == 0 && noBall == 0){
-                        ball[deliveries[innerIndex].bowler] = 1;
-                    }
                 } 
                 else {
                     economyOfBowler[deliveries[innerIndex].bowler] += Number(deliveries[innerIndex].total_runs);
+
+                }
+
+                if(!ball.hasOwnProperty(deliveries[innerIndex].bowler)){
+                    if(wideBall == 0 && noBall == 0){
+                        ball[deliveries[innerIndex].bowler] = 1;
+                    }
+                    else {
+                        ball[deliveries[innerIndex].bowler] = 0;
+                    }
+                }
+                else
+                {
                     if(wideBall == 0 && noBall == 0){
                         ball[deliveries[innerIndex].bowler] += 1;
-                    }
+                        }
                 }
             }
         }
@@ -107,8 +117,8 @@ function top10EconomicalBowlers2015(deliveries, matches) {
     }
     
     // In sorting the below line puts all the NaN values in order after sorting
-    sortedEconomy = Object.fromEntries(Object.entries(sortedEconomy).sort((x, y)=>x[1]-y[1] || isNaN(x[1])-isNaN(y[1])));
-
+    sortedEconomy = Object.fromEntries(Object.entries(sortedEconomy).sort((x, y)=>x[1]-y[1]));
+    
     for (let bowlerName in sortedEconomy) {
         if (counter > 10) {
             break;
