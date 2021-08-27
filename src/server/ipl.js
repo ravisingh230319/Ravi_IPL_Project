@@ -23,11 +23,11 @@ function noOfMatchesWonPerTeamPerYear(matches) {
             matchesWonPerTeam = {};
         } 
         else {
-            if (!matchesWonPerTeam.hasOwnProperty(matches[index].winner)) {
-            matchesWonPerTeam[matches[index].winner] = 1; 
+            if (matchesWonPerTeam.hasOwnProperty(matches[index].winner)) {
+            matchesWonPerTeam[matches[index].winner] += 1; 
             } 
-            else {
-            matchesWonPerTeam[matches[index].winner] += 1;
+            else if(matches[index].winner != ""){
+            matchesWonPerTeam[matches[index].winner] = 1;
             }    
         }
         results[matches[index].season] = matchesWonPerTeam;
