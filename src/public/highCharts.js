@@ -6,6 +6,7 @@ function plotMatchesWonPerYear() {
         })
         .then((data) => {
             const matchPerYear = [];
+            
             for (let year in data) {
                 matchPerYear.push([year, data[year]]);
             }
@@ -25,32 +26,43 @@ function plotMatchesWonPerTeamPerYear() {
         })
         .then((data) => {
             let seriesArray = [];
-            let seriesObject = {};
+            let teamName=[];
             let categoryArray = [];
-            for (const [year, yearObj] of Object.entries(data)) {
+
+            for (const year in data) {
                 categoryArray.push(year);
-                for (const [team, matchesWon] of Object.entries(yearObj)) {
-                    if (seriesObject.hasOwnProperty(team)) {
-                        seriesObject[team]['data'].push(matchesWon);
-                    } else {
-                        seriesObject[team] = {name: '', data: []};
-                        seriesObject[team]['name']=team;
-                        seriesObject[team]['data'].push(matchesWon);
+            }
+            for (const year in data) {
+                for (const team in Object.keys(data[year])) {
+                    if (!teamName.includes(Object.keys(data[year])[team])) {
+                        teamName.push(Object.keys(data[year])[team]);
                     }
                 }
             }
-
-            for (const [teamName, objData] of Object.entries(seriesObject)) {
-                seriesArray.push(objData);
+            for (const team of teamName) {
+                let teamData = [];
+                for (const year in data) {
+                    if (!data[year].hasOwnProperty(team)) {
+                        teamData.push(0);
+                    } else {
+                        teamData.push(data[year][team]);
+                    }
+                }
+                seriesArray.push({ name: team, data: teamData });
             }
+
             Highcharts.chart("chart-2", {
                 chart: {
                     type: "column",
+                    marginTop: 100
                 },
                 title: {
                     text: "Matches Won Per Each Team In Each Year",
                 },
                 xAxis: {
+                    title:{
+                        text:"Year"
+                    },
                     categories: categoryArray,
                 },
                 yAxis: {
@@ -70,10 +82,10 @@ function plotMatchesWonPerTeamPerYear() {
                     },
                 },
                 legend: {
-                    align: "right",
-                    x: -4,
+                    align: "center",
+                    x: -10,
                     verticalAlign: "top",
-                    y: 40,
+                    y: 30,
                     floating: true,
                     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || "white",
                     borderColor: "#CCC",
@@ -110,6 +122,7 @@ function plotExtraRunsPerTeam() {
         })
         .then((data) => {
             const extaRuns = [];
+
             for (let extra_runs in data) {
                 extaRuns.push([extra_runs, data[extra_runs]]);
             }
@@ -129,6 +142,7 @@ function plotTop10EconomicalBowlers2015() {
         })
         .then((data) => {
             const economicalBowlers = [];
+            
             for (let economy in data) {
                 economicalBowlers.push([economy, Number(data[economy])]);
             }
